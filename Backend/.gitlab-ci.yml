@@ -1,0 +1,7 @@
+trigger_build:
+  stage: build
+  script:
+        - export project="sohoa-backend"
+        - export result=$(curl -sIk  --user $jenkinsToken -X POST "https://jenkins.vdc2.com.vn/job/$project/job/$CI_COMMIT_REF_NAME/build?delay=0sec" | grep "HTTP/1.1" | cut -d' ' -f2)
+        - echo $result
+        - if [ "$result" == "200" ] || [ "$result" == "201" ]; then echo "Triggered to Jenkins server successful!"; else echo "Failed to triggered Jenkins server!" && exit 1; fi
